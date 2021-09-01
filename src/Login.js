@@ -95,7 +95,7 @@ const Login = (props) => {
             </Link>
           </li>
 
-          <Link to="/">
+          <Link to="/signup">
             <p>
               Don't have an account?
               <span onClick={() => setHasAccount(!hasAccount)}>Sign up</span>

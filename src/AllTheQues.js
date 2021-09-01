@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import AskQues from "./AskQues.js";
-import { Link } from "react-router-dom";
-import AllTheQues from "./AllTheQues.js";
-const Home = () => {
-  return (
-    <section className="home">
-      {/* <button onClick={handleLogout}>Logout</button> */}
-      
-      <AskQues />
 
+import { Link } from "react-router-dom";
+
+const AllTheQues = () => {
+  return (
+    <section className="AllTheQues">
+      {/* <button onClick={handleLogout}>Logout</button> */}
+
+      <h1>Hey??</h1>
     </section>
   );
 };
 
-export default Home;
+export default AllTheQues;
