@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+  Link,
+} from "react-router-dom";
 import fire from "./fire";
+
 const Login = (props) => {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -8,7 +15,9 @@ const Login = (props) => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
+  const history = useHistory();
   const handleLogin = () => {
+    console.log("hello", user);
     clearErrors();
     fire
       .auth()
@@ -25,7 +34,11 @@ const Login = (props) => {
             break;
         }
       })
-      .then(() => {});
+      .then(() => {
+        if (emailError == "" && passwordError == "") {
+          // history.push("/");
+        }
+      });
   };
   const clearInputs = () => {
     setEmail("");
@@ -35,28 +48,13 @@ const Login = (props) => {
     setEmailError("");
     setPasswordError("");
   };
-  const handleSignUp = () => {
-    clearErrors();
-    fire
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .catch((err) => {
-        switch (err.code) {
-          case "auth/email-already-in-use":
-          case "auth/invalid-email":
-            setEmailError(err.message);
-            break;
-          case "auth/weak-password":
-            setPasswordError(err.message);
-            break;
-        }
-      });
-  };
+
   const handleLogout = () => {
     fire.auth().signOut();
   };
   const authListener = () => {
     fire.auth().onAuthStateChanged((user) => {
+      console.log("this is uer", user);
       if (user) {
         clearInputs();
         setUser(user);
@@ -90,9 +88,7 @@ const Login = (props) => {
         <p className="errorMsg">{passwordError}</p>
         <div className="btnContainer">
           <li>
-            <Link to="/">
-              <button onClick={handleLogin}>Login</button>
-            </Link>
+            <button onClick={handleLogin}>Login</button>
           </li>
 
           <Link to="/signup">

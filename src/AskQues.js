@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import fire from "./fire";
 import firebase from "firebase";
 import FlatList from "flatlist-react";
+
 import Moment from "react-moment";
+import ButtonCheck from "./Components/ButtonCheck";
 import moment from "moment";
 import Fire from "./FirebaseMethods";
+import AllTheQues from "./AllTheQues";
 export default class AskQues extends React.Component {
   constructor(props) {
     super(props);
@@ -94,28 +97,32 @@ export default class AskQues extends React.Component {
     console.log("everyone4", this.state.everyone);
     return (
       <section className="hero">
-        <h2>FIRSTAnswers</h2>
-        <input
-          onChange={(e) => this.setState({ textInput: e.target.value })}
-          placeholder="Start typing your question"
-          type="text"
-          name="YourQuestion"
-          value={this.state.textInput}
-        />
-        <button onClick={this.handleQuestion}>
-          <h1>submit</h1>
-        </button>
+        <h2>FIRST Answers.</h2>
+        <div className="main-input-container">
+          <input
+            onChange={(e) => this.setState({ textInput: e.target.value })}
+            placeholder="Ask Away..."
+            type="text"
+            value={this.state.textInput}
+            name="YourQuestion"
+            className="mainQ"
+          />
+          <button onClick={this.handleQuestion}></button>
+        </div>
+        <div className="button-container">
+          <ButtonCheck name="Programming" />
+          <ButtonCheck name="Mechanical" />
+          <ButtonCheck name="Team Help" />
+          <ButtonCheck name="Field/game" />
+          <ButtonCheck name="Outreach" />
+          <ButtonCheck name="Fundraising" />
+          <ButtonCheck name="Team management" />
+          <ButtonCheck name="Resources" />
+          <ButtonCheck name="General" />
+        </div>
+        {/* <ButtonFlex /> */}
 
-        <section className="viewingQuesPart"></section>
-        <h1>hello</h1>
-        <FlatList
-          list={this.state.everyone}
-          renderItem={(item) => (
-            <li>
-              {item.projects.input} {moment(item.projects.time).fromNow()} {item.projects.nameOfPerson}
-            </li>
-          )}
-        />
+        <AllTheQues name={this.state.everyone} />
       </section>
     );
   }

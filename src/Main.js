@@ -2,10 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./Home.js";
 import Login from "./Login.js";
-
+import fire from "./fire";
 import "./App.css";
 import SignUp from "./SignUp.js";
 export default function Main() {
+  const handleLogout = () => {
+    fire.auth().signOut();
+  };
+  console.log("this is currrr", fire.auth().currentUser);
   return (
     <Router>
       <div>
@@ -16,7 +20,11 @@ export default function Main() {
             <Link to="/Links">Links</Link>
           </div>
           <div className="UserLinks">
-            <Link to="/login">Login</Link>
+            {fire.auth().currentUser == null && <Link to="/login">Login</Link>}
+            {fire.auth().currentUser != null &&
+              console.log("this is cut", fire.auth().currentUser) && (
+                <h1>HEYYYYYY</h1>
+              )}
             <Link to="/signup">Sign Up</Link>
           </div>
         </nav>

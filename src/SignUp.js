@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  useHistory,
+  Switch,
+  Route,
+  Link,
+} from "react-router-dom";
 import fire from "./fire";
+
 const Login = (props) => {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -12,6 +19,7 @@ const Login = (props) => {
   const [teamNumber, setTeamNumber] = useState("");
   const [teamName, setTeamName] = useState("");
   const [name, setName] = useState("");
+  const history = useHistory();
   const clearInputs = () => {
     setEmail("");
     setPassword("");
@@ -22,6 +30,7 @@ const Login = (props) => {
   const clearErrors = () => {
     setEmailError("");
     setPasswordError("");
+    setNameError("");
   };
   const handleSignUp = () => {
     clearErrors();
@@ -30,25 +39,38 @@ const Login = (props) => {
       .createUserWithEmailAndPassword(email, password)
       .catch((err) => {
         console.log("here??");
-        switch (err.code) {
-          case "auth/email-already-in-use":
-          case "auth/invalid-email":
-            setEmailError(err.message);
-            break;
-          case "auth/weak-password":
-            setPasswordError(err.message);
-            break;
+        if (name.length < 2) {
+          setNameError("Please enter your name!");
+        } else {
+          switch (err.code) {
+            case "auth/email-already-in-use":
+            case "auth/invalid-email":
+              setEmailError(err.message);
+              break;
+            case "auth/weak-password":
+              setPasswordError(err.message);
+              break;
+          }
         }
       })
       .then(() => {
-        console.log("this is email error", emailError);
-        if (emailError == "" && passwordError == "") {
-          fire.firestore().collection("users").add({
-            name: name,
-            email: email,
-            teamNumber: teamNumber,
-            teamName: teamName,
-          });
+        if (name.length < 2) {
+          setNameError("Please enter your name!");
+        } else {
+          console.log("this is email error", emailError);
+
+          fire
+            .firestore()
+            .collection("users")
+            .add({
+              name: name,
+              email: email,
+              teamNumber: teamNumber,
+              teamName: teamName,
+            })
+            .then(() => {
+              history.push("/");
+            });
         }
       });
   };
@@ -79,7 +101,7 @@ const Login = (props) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-
+        <p className="errorMsg">{nameError}</p>
         <label>Email</label>
         <input
           type="text"
@@ -117,9 +139,7 @@ const Login = (props) => {
         <p className="errorMsg">{passwordError}</p>
         <div className="btnContainer">
           <li>
-            <Link to="/">
-              <button onClick={handleSignUp}>Sign Up</button>
-            </Link>
+            <button onClick={handleSignUp}>Sign Up</button>
           </li>
 
           <Link to="/login">
