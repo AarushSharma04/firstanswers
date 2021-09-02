@@ -1,13 +1,7 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 import fire from "./fire";
 import "firebase/firestore";
 class Fire {
-  constructor() {
-    if (!firebase.apps.length) {
-      firebase.initializeApp({});
-    }
-  }
-
   getUserData = async (email) => {
     return new Promise((res, rej) => {
       fire.firestore

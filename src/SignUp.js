@@ -7,7 +7,7 @@ import {
   Link,
 } from "react-router-dom";
 import fire from "./fire";
-
+import firebase from "firebase";
 const Login = (props) => {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -34,45 +34,45 @@ const Login = (props) => {
   };
   const handleSignUp = () => {
     clearErrors();
-    fire
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .catch((err) => {
-        console.log("here??");
-        if (name.length < 2) {
-          setNameError("Please enter your name!");
-        } else {
-          switch (err.code) {
-            case "auth/email-already-in-use":
-            case "auth/invalid-email":
-              setEmailError(err.message);
-              break;
-            case "auth/weak-password":
-              setPasswordError(err.message);
-              break;
-          }
-        }
-      })
-      .then(() => {
-        if (name.length < 2) {
-          setNameError("Please enter your name!");
-        } else {
-          console.log("this is email error", emailError);
-
+    if (name.length > 2) {
+      fire
+        .auth()
+        .setPersistence(fire.auth.Auth.Persistence.LOCAL)
+        .then(() => {
           fire
-            .firestore()
-            .collection("users")
-            .add({
-              name: name,
-              email: email,
-              teamNumber: teamNumber,
-              teamName: teamName,
-            })
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
             .then(() => {
-              history.push("/");
+              fire
+                .firestore()
+                .collection("users")
+                .add({
+                  name: name,
+                  email: email,
+                  teamNumber: teamNumber,
+                  teamName: teamName,
+                })
+                .then(() => {
+                  history.push("./");
+                });
+            })
+            .catch((err) => {
+              console.log("here??");
+
+              switch (err.code) {
+                case "auth/email-already-in-use":
+                case "auth/invalid-email":
+                  setEmailError(err.message);
+                  break;
+                case "auth/weak-password":
+                  setPasswordError(err.message);
+                  break;
+              }
             });
-        }
-      });
+        });
+    } else {
+      setNameError("Please enter your name!");
+    }
   };
   const handleLogout = () => {
     fire.auth().signOut();

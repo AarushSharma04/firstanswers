@@ -7,7 +7,8 @@ import {
   Link,
 } from "react-router-dom";
 import fire from "./fire";
-
+import "firebase/auth";
+import firebase from "firebase";
 const Login = (props) => {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -16,28 +17,34 @@ const Login = (props) => {
   const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
   const history = useHistory();
+
   const handleLogin = () => {
-    console.log("hello", user);
     clearErrors();
     fire
       .auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch((err) => {
-        switch (err.code) {
-          case "auth/invalid-email":
-          case "auth/user-disabled":
-          case "auth/user-not-found":
-            setEmailError(err.message);
-            break;
-          case "auth/wrong-password":
-            setPasswordError(err.message);
-            break;
-        }
-      })
+      .setPersistence("local")
       .then(() => {
-        if (emailError == "" && passwordError == "") {
-          // history.push("/");
-        }
+        fire
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+
+          .then(() => {
+            console.log("pur", user);
+            history.push("./");
+          })
+          .catch((err) => {
+            console.log("this is era", err.code);
+            switch (err.code) {
+              case "auth/invalid-email":
+              case "auth/user-disabled":
+              case "auth/user-not-found":
+                setEmailError(err.message);
+                break;
+              case "auth/wrong-password":
+                setPasswordError(err.message);
+                break;
+            }
+          });
       });
   };
   const clearInputs = () => {
