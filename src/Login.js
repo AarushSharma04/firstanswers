@@ -20,31 +20,27 @@ const Login = (props) => {
 
   const handleLogin = () => {
     clearErrors();
+
     fire
       .auth()
-      .setPersistence("local")
-      .then(() => {
-        fire
-          .auth()
-          .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
 
-          .then(() => {
-            console.log("pur", user);
-            history.push("./");
-          })
-          .catch((err) => {
-            console.log("this is era", err.code);
-            switch (err.code) {
-              case "auth/invalid-email":
-              case "auth/user-disabled":
-              case "auth/user-not-found":
-                setEmailError(err.message);
-                break;
-              case "auth/wrong-password":
-                setPasswordError(err.message);
-                break;
-            }
-          });
+      .then(() => {
+        console.log("pur", user);
+        history.push("./");
+      })
+      .catch((err) => {
+        console.log("this is era", err.code);
+        switch (err.code) {
+          case "auth/invalid-email":
+          case "auth/user-disabled":
+          case "auth/user-not-found":
+            setEmailError(err.message);
+            break;
+          case "auth/wrong-password":
+            setPasswordError(err.message);
+            break;
+        }
       });
   };
   const clearInputs = () => {

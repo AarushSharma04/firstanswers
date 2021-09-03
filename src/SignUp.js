@@ -35,10 +35,7 @@ const Login = (props) => {
   const handleSignUp = () => {
     clearErrors();
     if (name.length > 2) {
-      fire
-        .auth()
-        .setPersistence(fire.auth.Auth.Persistence.LOCAL)
-        .then(() => {
+      
           fire
             .auth()
             .createUserWithEmailAndPassword(email, password)
@@ -54,8 +51,7 @@ const Login = (props) => {
                 })
                 .then(() => {
                   history.push("./");
-                });
-            })
+                })
             .catch((err) => {
               console.log("here??");
 

@@ -1,24 +1,28 @@
 import React, { useState } from "react";
 import fire from "./fire";
-import firebase from "firebase";
-import FlatList from "flatlist-react";
-import MultiPicker from "react-multi-picker";
-import Moment from "react-moment";
-import ButtonCheck from "./Components/ButtonCheck";
-import moment from "moment";
-import Fire from "./FirebaseMethods";
-import AllTheQues from "./AllTheQues";
+
 export default class AskQues extends React.Component {
   constructor(props) {
     super(props);
     // console.log("this is fire", fire.auth().currentUser);
-    this.state = { user: {} };
+    var s = false;
+    this.state = { user: {}, signedIn: s };
     if (fire.auth().currentUser != null) {
       this.getUserData(fire.auth().currentUser.email).then((user) => {
         user = user;
       });
     }
+
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log("state = definitely signed in");
+        this.setState({ signedIn: true });
+      } else {
+        console.log("state = definitely signed out");
+      }
+    });
   }
+
   authListener = () => {
     fire.auth().onAuthStateChanged((user) => {
       console.log("this is user", user);
@@ -53,12 +57,12 @@ export default class AskQues extends React.Component {
   render() {
     return (
       <section className="hero">
-        {fire.auth().currentUser != null && fire.auth().currentUser.email && (
+        {this.state.signedIn==true && (
           <section>
-            <h2>hola</h2>
+            <h1>{fire.auth().currentUser.email}</h1>
           </section>
         )}
-        {fire.auth().currentUser == null && (
+        {this.state.signedIn == false && (
           <section>
             <h2>Logged out.</h2>
           </section>

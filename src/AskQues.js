@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import fire from "./fire";
 import firebase from "firebase";
 import FlatList from "flatlist-react";
-import MultiPicker from "react-multi-picker";
-import Moment from "react-moment";
-import ButtonCheck from "./Components/ButtonCheck";
-import moment from "moment";
-import Fire from "./FirebaseMethods";
+
 import AllTheQues from "./AllTheQues";
 export default class AskQues extends React.Component {
   constructor(props) {
@@ -119,6 +115,7 @@ export default class AskQues extends React.Component {
     };
     db.collection("posts")
       .orderBy("time", "desc")
+      .limit(50)
       .get()
       .then(onReceive.bind(this));
   };
