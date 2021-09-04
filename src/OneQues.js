@@ -125,26 +125,32 @@ const OneQues = (props) => {
     }
   };
   return (
-    <section className="hero">
-      {project != null && <h1>{project.input}</h1>}
-      <input
-        onChange={(e) => setTextInput(e.target.value)}
-        placeholder="Answer Here..."
-        type="text"
-        value={textInput}
-        name="YourQuestion"
-        className="mainQ"
-      />
-      <button onClick={handleAnswer}></button>
-      <FlatList
-        list={allAnswers}
-        renderItem={(item) => (
-          <h1>
-            {item.name}
-            {item.ans}
-          </h1>
-        )}
-      />
+    <section className="qa-container">
+      <div className="question-container">
+        {project != null && <h1 className="question-info">Question from {project.nameOfPerson}</h1>}
+        {project != null && <h1 className="question">{project.input}</h1>}
+        {project.tags != null && <p className="tags"><span>Tags: </span>{project.tags.toString().split(",").join(" | ")}</p>}
+      </div>
+      <div className="answer-container">
+        <input
+          onChange={(e) => setTextInput(e.target.value)}
+          placeholder="Answer Here..."
+          type="text"
+          value={textInput}
+          name="YourQuestion"
+          className="mainQ"
+        />
+        <button onClick={handleAnswer}></button>
+        <FlatList
+          list={allAnswers}
+          renderItem={(item) => (
+            <h1>
+              {item.name}
+              {item.ans}
+            </h1>
+          )}
+        />
+      </div>
     </section>
   );
 };
