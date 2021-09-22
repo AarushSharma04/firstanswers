@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/firstanswers/static/css/main.4102c4ca.chunk.css",
+    "main.js": "/firstanswers/static/js/main.3a0153b0.chunk.js",
+    "main.js.map": "/firstanswers/static/js/main.3a0153b0.chunk.js.map",
+    "runtime-main.js": "/firstanswers/static/js/runtime-main.cb1fede9.js",
+    "runtime-main.js.map": "/firstanswers/static/js/runtime-main.cb1fede9.js.map",
+    "static/js/2.3bf78913.chunk.js": "/firstanswers/static/js/2.3bf78913.chunk.js",
+    "static/js/2.3bf78913.chunk.js.map": "/firstanswers/static/js/2.3bf78913.chunk.js.map",
+    "static/js/3.b054d72b.chunk.js": "/firstanswers/static/js/3.b054d72b.chunk.js",
+    "static/js/3.b054d72b.chunk.js.map": "/firstanswers/static/js/3.b054d72b.chunk.js.map",
+    "index.html": "/firstanswers/index.html",
+    "static/css/main.4102c4ca.chunk.css.map": "/firstanswers/static/css/main.4102c4ca.chunk.css.map",
+    "static/js/2.3bf78913.chunk.js.LICENSE.txt": "/firstanswers/static/js/2.3bf78913.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/firstanswers/static/media/logo.6ce24c58.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cb1fede9.js",
+    "static/js/2.3bf78913.chunk.js",
+    "static/css/main.4102c4ca.chunk.css",
+    "static/js/main.3a0153b0.chunk.js"
+  ]
+}
