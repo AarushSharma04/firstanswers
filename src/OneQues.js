@@ -124,6 +124,18 @@ const OneQues = (props) => {
         });
     }
   };
+
+  const tx = document.getElementsByTagName("textarea");
+  for (let i = 0; i < tx.length; i++) {
+    tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight + 5) + "px;overflow-y:hidden;");
+    tx[i].addEventListener("input", OnInput, false);
+  }
+
+  function OnInput() {
+    this.style.height = "auto";
+    this.style.height = (this.scrollHeight + 5) + "px";
+  }
+
   return (
     <section className="qa-container">
       <div className="question-container">
@@ -132,13 +144,13 @@ const OneQues = (props) => {
         {project.tags != null && <p className="tags"><span>Tags: </span>{project.tags.toString().split(",").join(" | ")}</p>}
       </div>
       <div className="answer-container">
-        <input
+        <textarea
           onChange={(e) => setTextInput(e.target.value)}
-          placeholder="Answer Here..."
+          placeholder="Start typing..."
           type="text"
           value={textInput}
           name="YourQuestion"
-          className="mainQ"
+          className="answer-input"
         />
         <button onClick={handleAnswer}></button>
         <FlatList
