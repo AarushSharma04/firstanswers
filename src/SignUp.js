@@ -35,23 +35,22 @@ const Login = (props) => {
   const handleSignUp = () => {
     clearErrors();
     if (name.length > 2) {
-      
+      fire
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => {
           fire
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
+            .firestore()
+            .collection("users")
+            .add({
+              name: name,
+              email: email,
+              teamNumber: teamNumber,
+              teamName: teamName,
+            })
             .then(() => {
-              fire
-                .firestore()
-                .collection("users")
-                .add({
-                  name: name,
-                  email: email,
-                  teamNumber: teamNumber,
-                  teamName: teamName,
-                })
-                .then(() => {
-                  history.push("./");
-                })
+              history.push("./");
+            })
             .catch((err) => {
               console.log("here??");
 
@@ -134,9 +133,11 @@ const Login = (props) => {
         />
         <p className="errorMsg">{passwordError}</p>
         <div className="btnContainer">
-          <li>
-            <button onClick={handleSignUp}>Sign Up</button>
-          </li>
+
+            <button className="signUpButt" onClick={handleSignUp}>
+              Sign Up
+            </button>
+
 
           <Link to="/login">
             <p>

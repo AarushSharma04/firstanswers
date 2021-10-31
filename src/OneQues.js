@@ -1,30 +1,39 @@
 import React, { useState, useEffect } from "react";
 import fire from "./fire";
 import FlatList from "flatlist-react";
+import { FaArrowAltCircleUp } from "react-icons/fa";
 const OneQues = (props) => {
   const [project, setProject] = useState({});
   const [textInput, setTextInput] = useState("");
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [allAnswers, setAllAnswers] = useState({});
+  const [id, setID] = useState("");
+
   useEffect(() => {
     // Update the document title using the browser API
+
     getProjData();
     getLoggedIn();
     getAnswers();
+    console.log("User.email", user.email);
     // getUserData(fire.auth().currentUser.email);
     // if (fire.auth().currentUser != null) {
     // }
   }, []);
+
   const getLoggedIn = () => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         getUserData(fire.auth().currentUser.email);
+        setLoggedIn(true);
       } else {
-       setUser({"name": "Anonymous Hedgehog"})
+        setUser({ name: "Anonymous Hedgehog", email: "undefined" });
+        setLoggedIn(false);
       }
     });
   };
+
   const getUserData = (email) => {
     console.log("am i actually being called?");
 
@@ -37,8 +46,9 @@ const OneQues = (props) => {
         //TODO MAKE THIS HANDLE THE CASE WHEN THERE ARE NO DOCUMENTS. IF YOU ARE ERRORING USING THIS METHOD, THAT MIGHT BE THE CAUSE.
         querySnapshot.forEach(function (doc) {
           // doc.data() is never undefined for query doc snapshots
-          console.log("hellooo");
+          console.log("hellooo", doc.id);
           setUser(doc.data());
+          setID(doc.id);
         });
         // doc.data() is never undefined for query doc snapshots
       })
@@ -46,6 +56,7 @@ const OneQues = (props) => {
         console.log("Error getting documents: ", error);
       });
   };
+
   const getAnswers = () => {
     let allAnswers = [];
 
@@ -53,11 +64,22 @@ const OneQues = (props) => {
 
     const onReceive = (querySnapshot) => {
       querySnapshot.forEach(function (doc) {
-        console.log("this is doc", doc.data());
+        var c = "white";
+        if (
+          loggedIn &&
+          doc.data().upvotes.indexOf(fire.auth().currentUser.email) >= 0
+        ) {
+          c = "#fa5039";
+        }
+        console.log("this is id", doc.id);
         allAnswers.push({
+          id: doc.id,
           ans: doc.data().ans,
           name: doc.data().name,
           email: doc.data().email,
+          upvotes: doc.data().upvotes,
+          downvotes: doc.data().downvotes,
+          color: c,
         });
         // doc.data() is never undefined for query doc snapshots
       });
@@ -88,6 +110,68 @@ const OneQues = (props) => {
         });
     });
   };
+  const incrementPoints = (num, user, id) => {
+    if (loggedIn) {
+      getUserData(fire.auth().currentUser.email);
+      console.log("this is quesAns", user.quesAns);
+      if (user.email != "none") {
+        fire
+          .firestore()
+          .collection("users")
+          .doc(id)
+          .update({
+            points: user.points + num,
+
+            quesAns: 1 + user.quesAns,
+          });
+      }
+    }
+  };
+  // const setColorOfSpecificAnswer = (i) => {
+  //   const index = allAnswers.findIndex((x) => x.id === i.id);
+  //   const temp = allAnswers[index];
+  //   temp.color = "blue";
+  //   allAnswers[index] = temp;
+  //   console.log("aai", allAnswers[index]);
+  // };
+  const handleUpvote = (i) => {
+    console.log("this is p", i.upvotes);
+    if (i.upvotes.indexOf(fire.auth().currentUser.email) == -1) {
+      // setColorOfSpecificAnswer(i);
+      var newArr = i.upvotes;
+      newArr.push(fire.auth().currentUser.email);
+      console.log("this is ppushed");
+      fire
+        .firestore()
+        .collection("posts")
+        .doc(window.location.pathname.substring(10))
+        .collection("answers")
+        .doc(i.id)
+        .update({
+          upvotes: newArr,
+        })
+        .then(() => {
+          getAnswers();
+        });
+    } else if (i.upvotes.indexOf(fire.auth().currentUser.email >= 0)) {
+      var newArr = i.upvotes;
+      newArr = newArr.filter((item) => item !== fire.auth().currentUser.email);
+
+      console.log("this is ppushed");
+      fire
+        .firestore()
+        .collection("posts")
+        .doc(window.location.pathname.substring(10))
+        .collection("answers")
+        .doc(i.id)
+        .update({
+          upvotes: newArr,
+        })
+        .then(() => {
+          getAnswers();
+        });
+    }
+  };
   const handleAnswer = () => {
     if (textInput != "") {
       fire
@@ -99,6 +183,7 @@ const OneQues = (props) => {
           name: user.name,
           ans: textInput,
           timestamp: new Date().getTime(),
+          upvotes: [""],
         })
         // .then(function (querySnapshot) {
         //   var allAnswers = [];
@@ -119,29 +204,41 @@ const OneQues = (props) => {
         //     .update({ answers: allAnswers });
         // })
         .then(() => {
+          incrementPoints(7, user, id);
           setTextInput("");
           getAnswers();
         });
     }
   };
-
   const tx = document.getElementsByTagName("textarea");
   for (let i = 0; i < tx.length; i++) {
-    tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight + 5) + "px;overflow-y:hidden;");
+    tx[i].setAttribute(
+      "style",
+      "height:" + (tx[i].scrollHeight + 5) + "px;overflow-y:hidden;"
+    );
     tx[i].addEventListener("input", OnInput, false);
   }
 
   function OnInput() {
     this.style.height = "auto";
-    this.style.height = (this.scrollHeight + 5) + "px";
+    this.style.height = this.scrollHeight + 5 + "px";
   }
 
   return (
     <section className="qa-container">
       <div className="question-container">
-        {project != null && <h1 className="question-info">Question from {project.nameOfPerson}</h1>}
+        {project != null && (
+          <h1 className="question-info">
+            Question from {project.nameOfPerson}
+          </h1>
+        )}
         {project != null && <h1 className="question">{project.input}</h1>}
-        {project.tags != null && <p className="tags"><span>Tags: </span>{project.tags.toString().split(",").join(" | ")}</p>}
+        {project.tags != null && (
+          <p className="tags">
+            <span>Tags: </span>
+            {project.tags.toString().split(",").join(" | ")}
+          </p>
+        )}
       </div>
       <div className="answer-container">
         <textarea
@@ -152,14 +249,54 @@ const OneQues = (props) => {
           name="YourQuestion"
           className="answer-input"
         />
-        <button onClick={handleAnswer}></button>
+        <button className="button-submit" onClick={handleAnswer}>
+          Submit
+        </button>
         <FlatList
           list={allAnswers}
           renderItem={(item) => (
-            <h1>
-              {item.name}
-              {item.ans}
-            </h1>
+            <div className="inner-container">
+              {user.email != "undefined" && (
+                <div className="upvote-container">
+                  <button
+                    style={{
+                      color: item.color,
+                      backgroundColor: "transparent",
+                      border: 0,
+                      transition: ".4s",
+                    }}
+                    onClick={() => handleUpvote(item)}
+                  >
+                    <FaArrowAltCircleUp size={40} />
+                    <h1 style={{ marginTop: -6 }}>{item.upvotes.length - 1}</h1>
+                  </button>
+                </div>
+              )}
+              {
+                (user.email == "undefined" && (
+                  <div className="upvote-container">
+                    <button
+                      style={{
+                        color: item.color,
+                        backgroundColor: "transparent",
+                        border: 0,
+                        transition: ".4s",
+                      }}
+                      onClick={() => alert("Log in to vote!")}
+                    >
+                      <FaArrowAltCircleUp size={40} />
+                      <h1 style={{ marginTop: -6 }}>
+                        {item.upvotes.length - 1}
+                      </h1>
+                    </button>
+                  </div>
+                ))
+              }
+              <div className="content-container">
+                <p className="answer-details">{item.name}</p>
+                <p className="answer-answer">{item.ans}</p>
+              </div>
+            </div>
           )}
         />
       </div>

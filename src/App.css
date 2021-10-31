@@ -746,7 +746,7 @@ nav a {
   background: none;
   border: 2px solid #fff;
   color: white;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .answer-input:hover {
@@ -767,4 +767,80 @@ nav a {
   outline: none;
   border-radius: 10px;
   /* box-shadow: 0px 2px 20px 10px rgba(255, 255, 255, 0.1); */
+}
+
+.inner-container {
+  border-bottom: 2px solid #eee;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.upvote-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .upvote-container > button {
+  font-size: 40px;
+  color: transparent;
+  -webkit-text-stroke: 1px #fff;
+  position: relative;
+  transition: 0.4s all ease;
+  outline: none;
+  border: none;
+  height: 50px;
+  background: none;
+}
+
+.upvote-container > button:hover {
+  transform: translateY(-4px);
+  cursor: pointer;
+}
+
+.upvote-container > button:focus {
+  color: white;
+  -webkit-text-stroke: 1px rgb(7, 7, 7);
+} */
+
+.content-container {
+  flex-grow: 1;
+  height: fit-content;
+  align-self: start;
+}
+
+.answer-details {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  
+}
+
+.answer-answer {
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.button-submit {
+  padding: 5px 20px;
+  color: white;
+  outline: none;
+  border: 2px solid #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 20px;
+  background: transparent;
+  transition: 0.4s all ease;
+}
+
+.button-submit:hover {
+  background-color: white;
+  color: #00171f;
+  border-radius: 10px;
+  cursor: pointer;
 }

@@ -90,9 +90,11 @@ const Login = (props) => {
         />
         <p className="errorMsg">{passwordError}</p>
         <div className="btnContainer">
-          <li>
-            <button onClick={handleLogin}>Login</button>
-          </li>
+
+            <button className="signUpButt" onClick={handleLogin}>
+              Login
+            </button>
+
 
           <Link to="/signup">
             <p>

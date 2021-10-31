@@ -55,11 +55,24 @@ export default class AskQues extends React.Component {
         });
     });
   };
-
+  incrementPoints = (num, user, id) => {
+    if (user.email != "none") {
+      fire
+        .firestore()
+        .collection("users")
+        .doc(id)
+        .update({
+          points: user.user.points + num,
+        });
+    }
+  };
   handleQuestion = () => {
+    console.log("this.state.checked", this.state.checked);
+
     if (fire.auth().currentUser != null) {
       this.getUserData(fire.auth().currentUser.email).then((user) => {
         console.log("this is user", user);
+        const tempArr = this.state.checked;
         var currUserEmail = "";
         if (fire.auth().currentUser != null) {
           currUserEmail = fire.auth().currentUser.email;
@@ -74,6 +87,7 @@ export default class AskQues extends React.Component {
             tags: this.state.checked,
           })
           .then(() => {
+            this.incrementPoints(5, user, user.id);
             this.setState({ textInput: "" });
             this.setState({ checked: [] });
             this.fillUsers();
@@ -91,6 +105,7 @@ export default class AskQues extends React.Component {
           input: this.state.textInput,
           nameOfPerson: "Anonymous Hedgehog",
           time: new Date().getTime(),
+          tags: this.state.checked,
         })
         .then(() => {
           this.setState({ textInput: "" });
@@ -121,14 +136,18 @@ export default class AskQues extends React.Component {
   };
   handleChange = (i) => {
     var tempArr = this.state.checked;
+    console.log("helo?", tempArr);
     if (tempArr.includes(i)) {
       tempArr.splice(tempArr.indexOf(i), 1);
+      console.log("helo1", tempArr);
     } else {
       tempArr.push(i);
+      console.log("helo2", tempArr);
     }
 
     this.setState({ checked: tempArr });
   };
+
   render() {
     console.log("everyone4", this.state.everyone);
 

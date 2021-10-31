@@ -14,7 +14,7 @@ export default function Main() {
   const handleLogout = () => {
     console.log("here?");
     fire.auth().signOut();
-    window.location.reload()
+    window.location.reload();
   };
   useEffect(() => {
     // Update the document title using the browser API
@@ -44,7 +44,7 @@ export default function Main() {
             <Link to="/Links">Links</Link>
             {loggedIn == false && <Link to="/signup">Sign Up</Link>}
             {loggedIn == false && <Link to="/login">Login</Link>}
-            <Link to="/myprofile">My Profile</Link>
+            {/* <Link to="/myprofile">My Profile</Link> */}
             {loggedIn == true && <button onClick={handleLogout}>Logout</button>}
           </div>
           <div className="UserLinks"></div>
@@ -65,9 +65,9 @@ export default function Main() {
           <Route path="/signup">
             <SignUp />
           </Route>
-          <Route path="/myprofile">
+          {/* <Route path="/myprofile">
             <MyProfile />
-          </Route>
+          </Route> */}
           <Route path="/question">
             <OneQues />
           </Route>
