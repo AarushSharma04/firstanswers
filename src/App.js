@@ -6,6 +6,7 @@ import Home from "./Home";
 import Main from "./Main.js";
 import React, { useState, useEffect } from "react";
 function App() {
+  document.title = "FIRST Answers";
   return (
     <div className="App">
       {/* {user ? (

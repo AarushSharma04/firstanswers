@@ -133,11 +133,9 @@ const Login = (props) => {
         />
         <p className="errorMsg">{passwordError}</p>
         <div className="btnContainer">
-
-            <button className="signUpButt" onClick={handleSignUp}>
-              Sign Up
-            </button>
-
+          <button className="signUpButt" onClick={handleSignUp}>
+            Sign Up
+          </button>
 
           <Link to="/login">
             <p>

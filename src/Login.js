@@ -90,13 +90,11 @@ const Login = (props) => {
         />
         <p className="errorMsg">{passwordError}</p>
         <div className="btnContainer">
+          <button className="signUpButt" onClick={handleLogin}>
+            Login
+          </button>
 
-            <button className="signUpButt" onClick={handleLogin}>
-              Login
-            </button>
-
-
-          <Link to="/signup">
+          <Link className="signUpBtn" to="/signup">
             <p>
               Don't have an account?
               <span onClick={() => setHasAccount(!hasAccount)}>Sign up</span>

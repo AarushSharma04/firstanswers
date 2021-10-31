@@ -183,7 +183,7 @@ const OneQues = (props) => {
           name: user.name,
           ans: textInput,
           timestamp: new Date().getTime(),
-          upvotes: [""],
+          upvotes: [" "],
         })
         // .then(function (querySnapshot) {
         //   var allAnswers = [];
