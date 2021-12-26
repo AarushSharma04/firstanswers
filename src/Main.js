@@ -57,7 +57,7 @@ export default function Main() {
         {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/scoreboard">
+          <Route path="firstanswers.org/scoreboard">
             <Scoreboard />
           </Route>
           <Route path="/Links">
