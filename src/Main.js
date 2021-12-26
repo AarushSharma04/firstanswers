@@ -40,7 +40,7 @@ export default function Main() {
         <nav>
           <div className="Elements">
             <Link to="/">Forums</Link>
-            <Link to="/scoreboard">Scoreboard</Link>
+            <Link to="scoreboard">Scoreboard</Link>
             <Link to="/Links">Links</Link>
             {loggedIn == false && <Link to="/signup">Sign Up</Link>}
             {loggedIn == false && <Link to="/login">Login</Link>}
