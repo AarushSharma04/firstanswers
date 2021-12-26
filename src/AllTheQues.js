@@ -9,7 +9,7 @@ const AllTheQues = (props) => {
   console.log("this is is props", props);
   return (
     <section className="AllTheQues">
-      <h1 className="ques-title">View Questions.</h1>
+      <h1 className="ques-title">I changed code View Questions.</h1>
 
       <table className="table">
         <tr className="headers">
