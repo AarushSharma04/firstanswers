@@ -40,7 +40,7 @@ export default function Main() {
         <nav>
           <div className="Elements">
             <Link to="/">Forums</Link>
-            <Link to="/scoreboard">Scoreboard</Link>
+            <Link to="firstanswers/scoreboard">Scoreboard</Link>
             <Link to="/Links">Links</Link>
             {loggedIn == false && <Link to="/signup">Sign Up</Link>}
             {loggedIn == false && <Link to="/login">Login</Link>}
@@ -57,7 +57,7 @@ export default function Main() {
         {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="firstanswers.org/scoreboard">
+          <Route path="/scoreboard">
             <Scoreboard />
           </Route>
           <Route path="/Links">
