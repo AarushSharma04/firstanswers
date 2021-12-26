@@ -6,7 +6,7 @@ const OneQues = (props) => {
   const [project, setProject] = useState({});
   const [textInput, setTextInput] = useState("");
   const [user, setUser] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState();
   const [allAnswers, setAllAnswers] = useState({});
   const [id, setID] = useState("");
 
@@ -15,7 +15,9 @@ const OneQues = (props) => {
 
     getProjData();
     getLoggedIn();
-    getAnswers();
+    // if (loggedIn != "undefined") {
+    //   getAnswers();
+    // }
     console.log("User.email", user.email);
     // getUserData(fire.auth().currentUser.email);
     // if (fire.auth().currentUser != null) {
@@ -27,9 +29,11 @@ const OneQues = (props) => {
       if (user) {
         getUserData(fire.auth().currentUser.email);
         setLoggedIn(true);
+        getAnswers(true);
       } else {
         setUser({ name: "Anonymous Hedgehog", email: "undefined" });
         setLoggedIn(false);
+        getAnswers(false);
       }
     });
   };
@@ -56,8 +60,29 @@ const OneQues = (props) => {
         console.log("Error getting documents: ", error);
       });
   };
+  const upvoteDownvote = (email, points) => {
+    console.log("am i actually being called?");
 
-  const getAnswers = () => {
+    fire
+      .firestore()
+      .collection("users")
+      .where("email", "==", email)
+      .get()
+      .then(function (querySnapshot) {
+        //TODO MAKE THIS HANDLE THE CASE WHEN THERE ARE NO DOCUMENTS. IF YOU ARE ERRORING USING THIS METHOD, THAT MIGHT BE THE CAUSE.
+        querySnapshot.forEach(function (doc) {
+          // doc.data() is never undefined for query doc snapshots
+          console.log("hellooo", doc.id);
+          incrementPoints(points, doc.data(), doc.id, 0);
+        });
+        // doc.data() is never undefined for query doc snapshots
+      })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+      });
+  };
+
+  const getAnswers = (torf) => {
     let allAnswers = [];
 
     const db = fire.firestore();
@@ -66,7 +91,7 @@ const OneQues = (props) => {
       querySnapshot.forEach(function (doc) {
         var c = "white";
         if (
-          loggedIn &&
+          torf &&
           doc.data().upvotes.indexOf(fire.auth().currentUser.email) >= 0
         ) {
           c = "#fa5039";
@@ -110,9 +135,10 @@ const OneQues = (props) => {
         });
     });
   };
-  const incrementPoints = (num, user, id) => {
+  const incrementPoints = (num, user, id, incrementQues) => {
+    console.log("This is user and id", user, id);
     if (loggedIn) {
-      getUserData(fire.auth().currentUser.email);
+      // getUserData(user.email);
       console.log("this is quesAns", user.quesAns);
       if (user.email != "none") {
         fire
@@ -121,8 +147,7 @@ const OneQues = (props) => {
           .doc(id)
           .update({
             points: user.points + num,
-
-            quesAns: 1 + user.quesAns,
+            quesAns: incrementQues + user.quesAns,
           });
       }
     }
@@ -135,7 +160,7 @@ const OneQues = (props) => {
   //   console.log("aai", allAnswers[index]);
   // };
   const handleUpvote = (i) => {
-    console.log("this is p", i.upvotes);
+    console.log("this is p", i);
     if (i.upvotes.indexOf(fire.auth().currentUser.email) == -1) {
       // setColorOfSpecificAnswer(i);
       var newArr = i.upvotes;
@@ -151,7 +176,8 @@ const OneQues = (props) => {
           upvotes: newArr,
         })
         .then(() => {
-          getAnswers();
+          getAnswers(true);
+          upvoteDownvote(i.email, 5);
         });
     } else if (i.upvotes.indexOf(fire.auth().currentUser.email >= 0)) {
       var newArr = i.upvotes;
@@ -169,6 +195,7 @@ const OneQues = (props) => {
         })
         .then(() => {
           getAnswers();
+          upvoteDownvote(i.email, -5);
         });
     }
   };
@@ -184,6 +211,7 @@ const OneQues = (props) => {
           ans: textInput,
           timestamp: new Date().getTime(),
           upvotes: [" "],
+          email: user.email,
         })
         // .then(function (querySnapshot) {
         //   var allAnswers = [];
@@ -204,7 +232,7 @@ const OneQues = (props) => {
         //     .update({ answers: allAnswers });
         // })
         .then(() => {
-          incrementPoints(7, user, id);
+          incrementPoints(7, user, id, 1);
           setTextInput("");
           getAnswers();
         });
@@ -252,34 +280,37 @@ const OneQues = (props) => {
         <button className="button-submit" onClick={handleAnswer}>
           Submit
         </button>
-        <FlatList
-          list={allAnswers}
-          renderItem={(item) => (
-            <div className="inner-container">
-              {user.email != "undefined" && (
-                <div className="upvote-container">
-                  <button
-                    style={{
-                      color: item.color,
-                      backgroundColor: "transparent",
-                      border: 0,
-                      transition: ".4s",
-                    }}
-                    onClick={() => handleUpvote(item)}
-                  >
-                    <FaArrowAltCircleUp size={40} />
-                    <h1 style={{ marginTop: -6 }}>{item.upvotes.length - 1}</h1>
-                  </button>
-                </div>
-              )}
-              {
-                (user.email == "undefined" && (
+        {allAnswers.length > 0 && (
+          <FlatList
+            list={allAnswers}
+            renderItem={(item) => (
+              <div className="inner-container">
+                {user.email != "undefined" && (
                   <div className="upvote-container">
                     <button
                       style={{
-                        color: item.color,
-                        backgroundColor: "transparent",
                         border: 0,
+                        backgroundColor: "transparent",
+
+                        transition: ".4s",
+                      }}
+                      onClick={() => handleUpvote(item)}
+                    >
+                      <FaArrowAltCircleUp color={"white"} size={40} />
+                      <h1 style={{ color: item.color, marginTop: -6 }}>
+                        {item.upvotes.length - 1}
+                      </h1>
+                    </button>
+                  </div>
+                )}
+                {user.email == "undefined" && (
+                  <div className="upvote-container">
+                    <button
+                      style={{
+                        // border: "2px"(item.color),
+                        border: 0,
+                        backgroundColor: "transparent",
+
                         transition: ".4s",
                       }}
                       onClick={() => alert("Log in to vote!")}
@@ -290,15 +321,15 @@ const OneQues = (props) => {
                       </h1>
                     </button>
                   </div>
-                ))
-              }
-              <div className="content-container">
-                <p className="answer-details">{item.name}</p>
-                <p className="answer-answer">{item.ans}</p>
+                )}
+                <div className="content-container">
+                  <p className="answer-details">{item.name}</p>
+                  <p className="answer-answer">{item.ans}</p>
+                </div>
               </div>
-            </div>
-          )}
-        />
+            )}
+          />
+        )}
       </div>
     </section>
   );

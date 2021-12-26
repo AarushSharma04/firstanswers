@@ -56,8 +56,6 @@ const AllTheQues = (props) => {
           )}
         />
       </table>
-
-      <Footer />
     </section>
   );
 };

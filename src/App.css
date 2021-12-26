@@ -33,9 +33,26 @@
   font-size: 22px;
   line-height: 1;
 }
-.signUpBtn {
-  align-self: center;
+.signUpButt {
+  padding: 5px 20px;
+  color: white;
+  outline: none;
+  border: 2px solid #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 20px;
+  background: transparent;
+  transition: 0.4s all ease;
+  align-self: "center";
 }
+.signUpButt:hover {
+  background-color: white;
+  color: #00171f;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .login .loginContainer input {
   width: 100%;
   border: none;
@@ -98,7 +115,8 @@ nav {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 30px;
+  padding: 10px auto;
+  width: 100%;
 }
 
 .Elements {
@@ -107,6 +125,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   height: 80px;
+  width: "100%";
 }
 
 .UserLinks {
@@ -117,11 +136,18 @@ nav {
   height: 80px;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 2400px) {
   nav {
-    height: 160px;
+    background: #00171f;
+    height: auto;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
+    position: "relative";
+    align-items: center;
+    padding: 10px 30px;
+    margin-bottom: -50px;
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
@@ -209,7 +235,13 @@ nav a {
   width: 90%;
   overflow-wrap: break-word;
 }
-
+.logout {
+  padding: 10px 20px;
+  background: white;
+  border: none;
+  font-weight: 600;
+  margin-left: 10px;
+}
 .hero .mainQ::placeholder:active,
 .hero .mainQ::placeholder:hover {
   color: white;
@@ -320,7 +352,19 @@ nav a {
 .checkbox label:before {
   border-radius: 3px;
 }
-
+@media only screen and (max-width: 775px) {
+  .Elements {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    align-items: center;
+    height: auto;
+    width: "100%";
+  }
+  .logout {
+    margin-left: 0px;
+  }
+}
 @media only screen and (max-width: 900px) {
   .hero {
     padding: 10px;
@@ -839,4 +883,16 @@ nav a {
   color: #00171f;
   border-radius: 10px;
   cursor: pointer;
+}
+@media only screen and (max-width: 775px) {
+  .qa-container {
+    background-color: #00171f;
+    color: white;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
 }

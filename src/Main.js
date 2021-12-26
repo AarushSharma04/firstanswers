@@ -45,7 +45,11 @@ export default function Main() {
             {loggedIn == false && <Link to="/signup">Sign Up</Link>}
             {loggedIn == false && <Link to="/login">Login</Link>}
             {/* <Link to="/myprofile">My Profile</Link> */}
-            {loggedIn == true && <button onClick={handleLogout}>Logout</button>}
+            {loggedIn == true && (
+              <button className="logout" onClick={handleLogout}>
+                Logout
+              </button>
+            )}
           </div>
           <div className="UserLinks"></div>
         </nav>

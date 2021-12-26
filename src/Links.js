@@ -18,7 +18,6 @@ const Links = () => {
         <LinksContainer
           name="FTC Discord"
           container="border-rebeccapurple"
-
           link="https://discord.gg/first-tech-challenge"
           text="white"
         />
@@ -65,7 +64,6 @@ const Links = () => {
           text="white"
         />
       </div>
-      <Footer />
     </section>
   );
 };

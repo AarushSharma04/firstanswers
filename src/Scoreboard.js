@@ -11,6 +11,9 @@ const Scoreboard = () => {
   useEffect(() => {
     // Update the document title using the browser API
     fillUsers();
+
+    console.log("item", allUsers);
+
     // getUserData(fire.auth().currentUser.email);
     // if (fire.auth().currentUser != null) {
     // }
@@ -19,10 +22,11 @@ const Scoreboard = () => {
     let everyone = [];
 
     const db = firebase.firestore();
-
+    var increment = 1;
     const onReceive = (querySnapshot) => {
       querySnapshot.forEach(function (doc) {
-        everyone.push({ projects: doc.data(), id: doc.id });
+        everyone.push({ projects: doc.data(), id: doc.id, i: increment });
+        increment++;
         // doc.data() is never undefined for query doc snapshots
       });
       // setData = everyone;
@@ -47,38 +51,26 @@ const Scoreboard = () => {
         <tr>
           <th>
             <div>
-              <div className="scoreboard-buttons">
-                <button>&#8679;</button>
-                <button>&#8681;</button>
-              </div>
+              <div className="scoreboard-buttons"></div>
               <p>Rank</p>
             </div>
           </th>
           <th>
             <div>
-              <div className="scoreboard-buttons">
-                <button>&#8679;</button>
-                <button>&#8681;</button>
-              </div>
+              <div className="scoreboard-buttons"></div>
               <p>Username</p>
             </div>
           </th>
           <th>
             <div>
-              <div className="scoreboard-buttons">
-                <button>&#8679;</button>
-                <button>&#8681;</button>
-              </div>
+              <div className="scoreboard-buttons"></div>
               <p>Num. of answers</p>
             </div>
           </th>
           <th>
             <div>
-              <div className="scoreboard-buttons">
-                <button>&#8679;</button>
-                <button>&#8681;</button>
-              </div>
-              <p>Total Upvotes</p>
+              <div className="scoreboard-buttons"></div>
+              <p>Total Score</p>
             </div>
           </th>
         </tr>
@@ -102,7 +94,7 @@ const Scoreboard = () => {
           className="scoreboard"
           renderItem={(item) => (
             <tr>
-              <td className="border-light-l border-dark-r">#1</td>
+              <td className="border-light-l border-dark-r">{item.i}</td>
               <td className="border-dark-r">{item.projects.name}</td>
               <td className="border-dark-r">{item.projects.quesAns}</td>
               <td className="border-light-r">{item.projects.points}</td>
@@ -110,7 +102,6 @@ const Scoreboard = () => {
           )}
         />
       </table>
-      <Footer />
     </section>
   );
 };
