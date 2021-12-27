@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "./static/css/main.71cdb9eb.chunk.css",
-    "main.js": "./static/js/main.97954d8b.chunk.js",
-    "main.js.map": "./static/js/main.97954d8b.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.70b37f94.js",
-    "runtime-main.js.map": "./static/js/runtime-main.70b37f94.js.map",
-    "static/js/2.630a08d7.chunk.js": "./static/js/2.630a08d7.chunk.js",
-    "static/js/2.630a08d7.chunk.js.map": "./static/js/2.630a08d7.chunk.js.map",
-    "static/js/3.69c903c1.chunk.js": "./static/js/3.69c903c1.chunk.js",
-    "static/js/3.69c903c1.chunk.js.map": "./static/js/3.69c903c1.chunk.js.map",
-    "index.html": "./index.html",
-    "static/css/main.71cdb9eb.chunk.css.map": "./static/css/main.71cdb9eb.chunk.css.map",
-    "static/js/2.630a08d7.chunk.js.LICENSE.txt": "./static/js/2.630a08d7.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "./static/media/logo.6ce24c58.svg"
+    "main.css": "/firstanswers.org/static/css/main.71cdb9eb.chunk.css",
+    "main.js": "/firstanswers.org/static/js/main.378cceda.chunk.js",
+    "main.js.map": "/firstanswers.org/static/js/main.378cceda.chunk.js.map",
+    "runtime-main.js": "/firstanswers.org/static/js/runtime-main.27a2abc8.js",
+    "runtime-main.js.map": "/firstanswers.org/static/js/runtime-main.27a2abc8.js.map",
+    "static/js/2.55977c14.chunk.js": "/firstanswers.org/static/js/2.55977c14.chunk.js",
+    "static/js/2.55977c14.chunk.js.map": "/firstanswers.org/static/js/2.55977c14.chunk.js.map",
+    "static/js/3.69c903c1.chunk.js": "/firstanswers.org/static/js/3.69c903c1.chunk.js",
+    "static/js/3.69c903c1.chunk.js.map": "/firstanswers.org/static/js/3.69c903c1.chunk.js.map",
+    "index.html": "/firstanswers.org/index.html",
+    "static/css/main.71cdb9eb.chunk.css.map": "/firstanswers.org/static/css/main.71cdb9eb.chunk.css.map",
+    "static/js/2.55977c14.chunk.js.LICENSE.txt": "/firstanswers.org/static/js/2.55977c14.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/firstanswers.org/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.70b37f94.js",
-    "static/js/2.630a08d7.chunk.js",
+    "static/js/runtime-main.27a2abc8.js",
+    "static/js/2.55977c14.chunk.js",
     "static/css/main.71cdb9eb.chunk.css",
-    "static/js/main.97954d8b.chunk.js"
+    "static/js/main.378cceda.chunk.js"
   ]
 }
