@@ -35,50 +35,50 @@ export default function Main() {
   };
   console.log("this is currrr", fire.auth().currentUser);
   return (
-    <Router>
-      <div>
-        <nav>
-          <div className="Elements">
-            <Link to="/">Forums</Link>
-            <Link to="/scoreboard">Scoreboard</Link>
-            <Link to="/Links">Links</Link>
-            {loggedIn == false && <Link to="/signup">Sign Up</Link>}
-            {loggedIn == false && <Link to="/login">Login</Link>}
-            {/* <Link to="/myprofile">My Profile</Link> */}
-            {loggedIn == true && (
-              <button className="logout" onClick={handleLogout}>
-                Logout
-              </button>
-            )}
-          </div>
-          <div className="UserLinks"></div>
-        </nav>
+    // <Router>
+    <div>
+      <nav>
+        <div className="Elements">
+          <Link as={Link} to="/">
+            Forums
+          </Link>
+          <Link to="/scoreboard">Scoreboard</Link>
+          <Link to="/links">Links</Link>
+          {loggedIn == false && <Link to="/signup">Sign Up</Link>}
+          {loggedIn == false && <Link to="/login">Login</Link>}
 
-        {/* A <Switch> looks through its children <Route>s and
+          {loggedIn == true && (
+            <button className="logout" onClick={handleLogout}>
+              Logout
+            </button>
+          )}
+        </div>
+        <div className="UserLinks"></div>
+      </nav>
+
+      {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/scoreboard" component={Scoreboard} />
-          <Route path="/Links">
-            <Links />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          {/* <Route path="/myprofile">
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/scoreboard" component={Scoreboard} />
+        <Route path="/Links">
+          <Links />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/signup">
+          <SignUp />
+        </Route>
+        {/* <Route path="/myprofile">
             <MyProfile />
           </Route> */}
-          <Route path="/question">
-            <OneQues />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+        <Route path="/question">
+          <OneQues />
+        </Route>
+      </Switch>
+    </div>
+    // </Router>
   );
 }
 
