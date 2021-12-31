@@ -47,6 +47,8 @@ const Login = (props) => {
               email: email,
               teamNumber: teamNumber,
               teamName: teamName,
+              quesAns: 0,
+              points: 0,
             })
             .then(() => {
               history.push("./");
