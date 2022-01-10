@@ -134,7 +134,6 @@ const OneQues = (props) => {
           .doc(id)
           .update({
             points: user.points + num,
-
             quesAns: 1 + user.quesAns,
           });
       }
@@ -168,6 +167,7 @@ const OneQues = (props) => {
           upvotes: newArr,
         })
         .then(() => {
+    
           getAnswers();
         });
     } else if (i.upvotes.indexOf(fire.auth().currentUser.email >= 0)) {

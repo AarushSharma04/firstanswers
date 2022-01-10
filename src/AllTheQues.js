@@ -50,7 +50,7 @@ const AllTheQues = (props) => {
                 className="hideAgain"
                 style={{ borderRight: "2px solid #eee" }}
               >
-                {item.projects.nameOfPerson}
+                {item.projects.nameOfPerson} - {item.projects.teamOfPerson}
               </td>
             </tr>
           )}

@@ -85,6 +85,7 @@ export default class AskQues extends React.Component {
             nameOfPerson: user.user.name,
             time: new Date().getTime(),
             tags: this.state.checked,
+            teamOfPerson: user.user.teamName,
           })
           .then(() => {
             this.incrementPoints(5, user, user.id);
@@ -103,9 +104,10 @@ export default class AskQues extends React.Component {
         .collection("posts")
         .add({
           input: this.state.textInput,
-          nameOfPerson: "Anonymous Hedgehog",
+          nameOfPerson: "Anonymous Unicorn",
           time: new Date().getTime(),
           tags: this.state.checked,
+          teamOfPerson: "Unknown",
         })
         .then(() => {
           this.setState({ textInput: "" });
