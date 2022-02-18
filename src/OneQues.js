@@ -167,7 +167,6 @@ const OneQues = (props) => {
           upvotes: newArr,
         })
         .then(() => {
-    
           getAnswers();
         });
     } else if (i.upvotes.indexOf(fire.auth().currentUser.email >= 0)) {
@@ -194,7 +193,12 @@ const OneQues = (props) => {
     }
   };
   const handleAnswer = () => {
-    if (textInput != "") {
+    console.log("this is text input", textInput);
+    if (textInput.length < 10) {
+      alert("Please type something longer!");
+    } else if (textInput.length > 1000) {
+      alert("Please type something shorter!");
+    } else {
       fire
         .firestore()
         .collection("posts")

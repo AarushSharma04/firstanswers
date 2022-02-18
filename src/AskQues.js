@@ -77,43 +77,55 @@ export default class AskQues extends React.Component {
         if (fire.auth().currentUser != null) {
           currUserEmail = fire.auth().currentUser.email;
         }
-        fire
-          .firestore()
-          .collection("posts")
-          .add({
-            input: this.state.textInput,
-            nameOfPerson: user.user.name,
-            time: new Date().getTime(),
-            tags: this.state.checked,
-            teamOfPerson: user.user.teamName,
-          })
-          .then(() => {
-            this.incrementPoints(5, user, user.id);
-            this.setState({ textInput: "" });
-            this.setState({ checked: [] });
-            this.fillUsers();
-          });
+        if (this.state.textInput.length < 30) {
+          alert("Type something a bit longer!");
+        } else if (this.state.textInput.length > 2000) {
+          alert("Type something a bit shorter!");
+        } else {
+          fire
+            .firestore()
+            .collection("posts")
+            .add({
+              input: this.state.textInput,
+              nameOfPerson: user.user.name,
+              time: new Date().getTime(),
+              tags: this.state.checked,
+              teamOfPerson: user.user.teamName,
+            })
+            .then(() => {
+              this.incrementPoints(5, user, user.id);
+              this.setState({ textInput: "" });
+              this.setState({ checked: [] });
+              this.fillUsers();
+            });
+        }
       });
     } else {
       var currUserEmail = "";
       if (fire.auth().currentUser != null) {
         currUserEmail = fire.auth().currentUser.email;
       }
-      fire
-        .firestore()
-        .collection("posts")
-        .add({
-          input: this.state.textInput,
-          nameOfPerson: "Anonymous Unicorn",
-          time: new Date().getTime(),
-          tags: this.state.checked,
-          teamOfPerson: "Unknown",
-        })
-        .then(() => {
-          this.setState({ textInput: "" });
-          this.setState({ checked: [] });
-          this.fillUsers();
-        });
+      if (this.state.textInput.length < 20) {
+        alert("Type something a bit longer!");
+      } else if (this.state.textInput.length > 2000) {
+        alert("Type something a bit shorter!");
+      } else {
+        fire
+          .firestore()
+          .collection("posts")
+          .add({
+            input: this.state.textInput,
+            nameOfPerson: "Anonymous Unicorn",
+            time: new Date().getTime(),
+            tags: this.state.checked,
+            teamOfPerson: "Unknown",
+          })
+          .then(() => {
+            this.setState({ textInput: "" });
+            this.setState({ checked: [] });
+            this.fillUsers();
+          });
+      }
     }
   };
 
